@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scanline — Document Summary Assistant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">▤</span>
+    <span class="brand-name">Scanline</span>
+  </div>
+  <span class="brand-tag">document summary assistant</span>
+</header>
+
+<main>
+  <section class="hero">
+    <h1>Feed it a page.<br>Walk away with the point.</h1>
+    <p class="hero-sub">Drop in a PDF or a photo of a scanned page — Scanline reads it, ranks what matters, and hands back a summary, key points, and notes on the source itself.</p>
+  </section>
+
+  <section class="console">
+    <div class="dropzone" id="dropzone">
+      <div class="scanbar" id="scanbar"></div>
+      <input type="file" id="fileInput" accept=".pdf,.png,.jpg,.jpeg,.bmp,.tiff,.tif,.webp" hidden>
+
+      <div class="dz-idle" id="dzIdle">
+        <div class="dz-icon">⇪</div>
+        <p class="dz-title">Drag a file here, or <button type="button" id="browseBtn" class="link-btn">browse</button></p>
+        <p class="dz-hint">PDF or image (PNG, JPG, TIFF, BMP) · up to 15 MB</p>
+      </div>
+
+      <div class="dz-file" id="dzFile" hidden>
+        <div class="file-chip">
+          <span class="file-icon" id="fileIcon">◧</span>
+          <span class="file-name" id="fileName"></span>
+          <button type="button" class="file-clear" id="fileClear" aria-label="Remove file">✕</button>
+        </div>
+
+        <div class="length-picker" role="radiogroup" aria-label="Summary length">
+          <button type="button" class="len-opt" data-len="short">Short</button>
+          <button type="button" class="len-opt is-active" data-len="medium">Medium</button>
+          <button type="button" class="len-opt" data-len="long">Long</button>
+        </div>
+
+        <button type="button" class="run-btn" id="runBtn">
+          <span class="run-label">Summarize</span>
+        </button>
+      </div>
+    </div>
+
+    <p class="error-msg" id="errorMsg" hidden></p>
+  </section>
+
+  <section class="results" id="results" hidden>
+
+    <div class="slip">
+      <div class="slip-row slip-meta">
+        <span id="resFilename">—</span>
+        <span class="dot">·</span>
+        <span id="resMethod">—</span>
+        <span class="dot">·</span>
+        <span id="resStats">—</span>
+      </div>
+
+      <div class="slip-block">
+        <h2 class="slip-label">Summary</h2>
+        <p class="slip-summary" id="resSummary"></p>
+      </div>
+
+      <div class="slip-block">
+        <h2 class="slip-label">Key points</h2>
+        <ul class="key-points" id="resKeyPoints"></ul>
+      </div>
+
+      <div class="slip-block">
+        <h2 class="slip-label">Improvement suggestions</h2>
+        <ul class="suggestions" id="resSuggestions"></ul>
+      </div>
+
+      <details class="raw-text">
+        <summary>View extracted text</summary>
+        <pre id="resRawText"></pre>
+      </details>
+    </div>
+
+    <button type="button" class="reset-btn" id="resetBtn">Summarize another document</button>
+  </section>
+</main>
+
+<footer>
+  <span>Runs extraction + summarization locally — no document leaves the server to a third-party AI API.</span>
+</footer>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
