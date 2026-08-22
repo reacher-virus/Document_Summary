@@ -1,104 +1,587 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Scanline — Document Summary Assistant</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Scanline — AI Document Summary Assistant</title>
+
+    <meta
+        name="description"
+        content="Extract, summarize, and understand PDFs and scanned documents with Scanline."
+    >
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
 </head>
+
 <body>
 
-<div class="grain"></div>
+<div class="app-shell">
 
-<header class="topbar">
-  <div class="brand">
-    <span class="brand-mark">▤</span>
-    <span class="brand-name">Scanline</span>
-  </div>
-  <span class="brand-tag">document summary assistant</span>
-</header>
+    <!-- ================= HEADER ================= -->
 
-<main>
-  <section class="hero">
-    <h1>Feed it a page.<br>Walk away with the point.</h1>
-    <p class="hero-sub">Drop in a PDF or a photo of a scanned page — Scanline reads it, ranks what matters, and hands back a summary, key points, and notes on the source itself.</p>
-  </section>
+    <header class="topbar">
 
-  <section class="console">
-    <div class="dropzone" id="dropzone">
-      <div class="scanbar" id="scanbar"></div>
-      <input type="file" id="fileInput" accept=".pdf,.png,.jpg,.jpeg,.bmp,.tiff,.tif,.webp" hidden>
+        <a href="/" class="brand" aria-label="Scanline home">
+            <span class="brand-symbol">
+                <span></span>
+                <span></span>
+                <span></span>
+            </span>
 
-      <div class="dz-idle" id="dzIdle">
-        <div class="dz-icon">⇪</div>
-        <p class="dz-title">Drag a file here, or <button type="button" id="browseBtn" class="link-btn">browse</button></p>
-        <p class="dz-hint">PDF or image (PNG, JPG, TIFF, BMP) · up to 15 MB</p>
-      </div>
+            <span class="brand-name">SCANLINE</span>
+        </a>
 
-      <div class="dz-file" id="dzFile" hidden>
-        <div class="file-chip">
-          <span class="file-icon" id="fileIcon">◧</span>
-          <span class="file-name" id="fileName"></span>
-          <button type="button" class="file-clear" id="fileClear" aria-label="Remove file">✕</button>
+        <div class="header-status">
+            <span class="status-dot"></span>
+            <span>DOCUMENT INTELLIGENCE</span>
         </div>
 
-        <div class="length-picker" role="radiogroup" aria-label="Summary length">
-          <button type="button" class="len-opt" data-len="short">Short</button>
-          <button type="button" class="len-opt is-active" data-len="medium">Medium</button>
-          <button type="button" class="len-opt" data-len="long">Long</button>
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main>
+
+        <!-- ================= HERO ================= -->
+
+        <section class="hero">
+
+            <div class="hero-eyebrow">
+                <span class="eyebrow-line"></span>
+                <span>READ LESS. UNDERSTAND MORE.</span>
+            </div>
+
+            <h1>
+                Turn documents into
+                <span>clarity.</span>
+            </h1>
+
+            <p class="hero-description">
+                Upload a PDF or scanned document. Scanline extracts the
+                content, identifies what matters, and turns it into a
+                concise summary with key points and source insights.
+            </p>
+
+        </section>
+
+
+        <!-- ================= UPLOAD CONSOLE ================= -->
+
+        <section class="workspace">
+
+            <div class="workspace-header">
+
+                <div>
+                    <span class="section-index">01</span>
+                    <span class="section-title">UPLOAD DOCUMENT</span>
+                </div>
+
+                <span class="file-limit">MAX 15 MB</span>
+
+            </div>
+
+
+            <div class="dropzone" id="dropzone">
+
+                <!-- scanning animation -->
+                <div class="scanbar" id="scanbar"></div>
+
+
+                <!-- ================= IDLE STATE ================= -->
+
+                <div class="dz-idle" id="dzIdle">
+
+                    <div class="upload-icon">
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            aria-hidden="true"
+                        >
+                            <path d="M12 16V4"/>
+                            <path d="M7 9l5-5 5 5"/>
+                            <path d="M5 20h14"/>
+                        </svg>
+                    </div>
+
+                    <div class="upload-copy">
+
+                        <h2>
+                            Drop your document here
+                        </h2>
+
+                        <p>
+                            or
+                            <button
+                                type="button"
+                                id="browseBtn"
+                                class="browse-btn"
+                            >
+                                choose a file
+                            </button>
+                        </p>
+
+                    </div>
+
+                    <div class="format-list">
+                        PDF
+                        <span>•</span>
+                        PNG
+                        <span>•</span>
+                        JPG
+                        <span>•</span>
+                        TIFF
+                        <span>•</span>
+                        BMP
+                    </div>
+
+                </div>
+
+
+                <!-- ================= SELECTED FILE ================= -->
+
+                <div class="dz-file" id="dzFile" hidden>
+
+                    <div class="selected-file">
+
+                        <div class="document-icon">
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                                aria-hidden="true"
+                            >
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <path d="M14 2v6h6"/>
+                                <path d="M8 13h8"/>
+                                <path d="M8 17h5"/>
+                            </svg>
+
+                        </div>
+
+                        <div class="file-details">
+
+                            <span
+                                class="file-name"
+                                id="fileName"
+                            ></span>
+
+                            <span class="file-meta">
+                                Ready for analysis
+                            </span>
+
+                        </div>
+
+                        <button
+                            type="button"
+                            class="file-clear"
+                            id="fileClear"
+                            aria-label="Remove selected file"
+                        >
+                            ×
+                        </button>
+
+                    </div>
+
+
+                    <!-- SUMMARY LENGTH -->
+
+                    <div class="analysis-options">
+
+                        <div class="option-label">
+                            SUMMARY LENGTH
+                        </div>
+
+                        <div
+                            class="length-picker"
+                            role="radiogroup"
+                            aria-label="Summary length"
+                        >
+
+                            <button
+                                type="button"
+                                class="len-opt"
+                                data-len="short"
+                                role="radio"
+                                aria-checked="false"
+                            >
+                                Short
+                            </button>
+
+                            <button
+                                type="button"
+                                class="len-opt is-active"
+                                data-len="medium"
+                                role="radio"
+                                aria-checked="true"
+                            >
+                                Medium
+                            </button>
+
+                            <button
+                                type="button"
+                                class="len-opt"
+                                data-len="long"
+                                role="radio"
+                                aria-checked="false"
+                            >
+                                Long
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SUMMARIZE BUTTON -->
+
+                    <button
+                        type="button"
+                        class="run-btn"
+                        id="runBtn"
+                    >
+
+                        <span class="run-icon">
+                            →
+                        </span>
+
+                        <span class="run-label">
+                            Analyze document
+                        </span>
+
+                    </button>
+
+                </div>
+
+                <!-- Hidden file input -->
+                <input
+                    type="file"
+                    id="fileInput"
+                    accept=".pdf,.png,.jpg,.jpeg,.bmp,.tiff,.tif,.webp"
+                    hidden
+                />
+
+            </div>
+
+
+            <!-- ERROR -->
+
+            <div
+                class="error-msg"
+                id="errorMsg"
+                role="alert"
+                hidden
+            ></div>
+
+        </section>
+
+
+        <!-- ================= RESULTS ================= -->
+
+        <section
+            class="results"
+            id="results"
+            hidden
+        >
+
+            <!-- RESULT HEADER -->
+
+            <div class="results-header">
+
+                <div>
+
+                    <div class="results-eyebrow">
+                        <span class="status-dot"></span>
+                        ANALYSIS COMPLETE
+                    </div>
+
+                    <h2>
+                        Document intelligence
+                    </h2>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="reset-btn"
+                    id="resetBtn"
+                >
+                    <span>+</span>
+                    Analyze another
+                </button>
+
+            </div>
+
+
+            <!-- DOCUMENT META -->
+
+            <div class="document-meta">
+
+                <div class="document-meta-main">
+
+                    <div class="result-file-icon">
+                        ◧
+                    </div>
+
+                    <div>
+
+                        <div
+                            class="result-filename"
+                            id="resFilename"
+                        >
+                            —
+                        </div>
+
+                        <div class="result-method">
+
+                            <span id="resMethod">—</span>
+
+                            <span class="meta-separator">/</span>
+
+                            <span id="resStats">—</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="result-badge">
+                    PROCESSED
+                </div>
+
+            </div>
+
+
+            <!-- STATISTICS -->
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        WORDS
+                    </span>
+
+                    <strong
+                        class="stat-value"
+                        id="statWords"
+                    >
+                        —
+                    </strong>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        SENTENCES
+                    </span>
+
+                    <strong
+                        class="stat-value"
+                        id="statSentences"
+                    >
+                        —
+                    </strong>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        SUMMARY
+                    </span>
+
+                    <strong
+                        class="stat-value"
+                        id="statSummaryWords"
+                    >
+                        —
+                    </strong>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        LENGTH
+                    </span>
+
+                    <strong
+                        class="stat-value stat-text"
+                        id="statLength"
+                    >
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- SUMMARY -->
+
+            <article class="result-card summary-card">
+
+                <div class="card-heading">
+
+                    <div class="card-number">
+                        01
+                    </div>
+
+                    <div>
+                        <span class="card-kicker">
+                            CORE TAKEAWAY
+                        </span>
+
+                        <h3>
+                            Summary
+                        </h3>
+                    </div>
+
+                </div>
+
+                <div
+                    class="summary-content"
+                    id="resSummary"
+                ></div>
+
+            </article>
+
+
+            <!-- TWO COLUMN RESULTS -->
+
+            <div class="result-columns">
+
+                <!-- KEY POINTS -->
+
+                <article class="result-card">
+
+                    <div class="card-heading">
+
+                        <div class="card-number">
+                            02
+                        </div>
+
+                        <div>
+                            <span class="card-kicker">
+                                WHAT MATTERS
+                            </span>
+
+                            <h3>
+                                Key points
+                            </h3>
+                        </div>
+
+                    </div>
+
+                    <ul
+                        class="key-points"
+                        id="resKeyPoints"
+                    ></ul>
+
+                </article>
+
+
+                <!-- SUGGESTIONS -->
+
+                <article class="result-card">
+
+                    <div class="card-heading">
+
+                        <div class="card-number">
+                            03
+                        </div>
+
+                        <div>
+                            <span class="card-kicker">
+                                SOURCE QUALITY
+                            </span>
+
+                            <h3>
+                                Improvement suggestions
+                            </h3>
+                        </div>
+
+                    </div>
+
+                    <ul
+                        class="suggestions"
+                        id="resSuggestions"
+                    ></ul>
+
+                </article>
+
+            </div>
+
+
+            <!-- RAW TEXT -->
+
+            <details class="raw-text">
+
+                <summary>
+
+                    <span>
+                        VIEW EXTRACTED TEXT
+                    </span>
+
+                    <span class="raw-arrow">
+                        ↘
+                    </span>
+
+                </summary>
+
+                <pre id="resRawText"></pre>
+
+            </details>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="footer">
+
+        <div class="footer-brand">
+            SCANLINE
         </div>
 
-        <button type="button" class="run-btn" id="runBtn">
-          <span class="run-label">Summarize</span>
-        </button>
-      </div>
-    </div>
+        <div class="footer-copy">
+            Local extraction · OCR · LexRank summarization
+        </div>
 
-    <p class="error-msg" id="errorMsg" hidden></p>
-  </section>
+        <div class="footer-status">
+            <span class="status-dot"></span>
+            NO EXTERNAL AI API
+        </div>
 
-  <section class="results" id="results" hidden>
+    </footer>
 
-    <div class="slip">
-      <div class="slip-row slip-meta">
-        <span id="resFilename">—</span>
-        <span class="dot">·</span>
-        <span id="resMethod">—</span>
-        <span class="dot">·</span>
-        <span id="resStats">—</span>
-      </div>
+</div>
 
-      <div class="slip-block">
-        <h2 class="slip-label">Summary</h2>
-        <p class="slip-summary" id="resSummary"></p>
-      </div>
-
-      <div class="slip-block">
-        <h2 class="slip-label">Key points</h2>
-        <ul class="key-points" id="resKeyPoints"></ul>
-      </div>
-
-      <div class="slip-block">
-        <h2 class="slip-label">Improvement suggestions</h2>
-        <ul class="suggestions" id="resSuggestions"></ul>
-      </div>
-
-      <details class="raw-text">
-        <summary>View extracted text</summary>
-        <pre id="resRawText"></pre>
-      </details>
-    </div>
-
-    <button type="button" class="reset-btn" id="resetBtn">Summarize another document</button>
-  </section>
-</main>
-
-<footer>
-  <span>Runs extraction + summarization locally — no document leaves the server to a third-party AI API.</span>
-</footer>
 
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
 </body>
 </html>
+```
