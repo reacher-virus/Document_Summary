@@ -1,16 +1,3 @@
-"""
-Summarization engine.
-
-Uses extractive summarization (LexRank, a TextRank-family graph algorithm)
-via the `sumy` library. This requires no external API key or paid service,
-runs fully offline, and scales to documents of any length without token-limit
-or rate-limit concerns.
-
-Also derives:
-  - key points (top-ranked standalone sentences, shown as bullets)
-  - lightweight improvement suggestions, based on structural heuristics
-    (missing sections, very long paragraphs, low readability signals, etc.)
-"""
 
 import re
 
